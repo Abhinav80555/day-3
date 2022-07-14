@@ -1,26 +1,27 @@
-// const express = require("express");
+
 import express from "express";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
 dotenv.config();
-// console.log(process.env);
-//environmental variable
+
 const app = express();
 const PORT = 1515;
 
-//middleware->intercept->converting body to json
-app.use(express.json()); //inbuilt  middleware
+
+app.use(express.json()); 
 
 const MONGO_URL = process.env.MONGO_URL;
-// Node - MongoDB
+
 async function createConnection() {
   const client = new MongoClient(MONGO_URL);
   await client.connect();
-  console.log("Mongodb is connected ✌😊");
+  console.log("Mongodb is connected ");
   return client;
 }
-//TOP LEVEL AWAIT
+
 const client = await createConnection();
+
+
 
 
 //1. Find all the information about each products
@@ -32,6 +33,8 @@ app.get("/products", async function(req, res) {
     .toArray();
   res.send(result);
 });
+
+
 
 
 //2. Find the product price which are between 400 to 800
@@ -56,6 +59,9 @@ app.get("/products400-800", async function(req, res) {
   res.send(result);
 });
 
+
+
+
 //4. List the four product which are grater than 500 in price
 app.get("/products500", async function(req, res) {
   const result = await client
@@ -65,6 +71,7 @@ app.get("/products500", async function(req, res) {
     .toArray();
   res.send(result);
 });
+
 
 
 //5. Find the product name and product material of each products
@@ -77,6 +84,9 @@ app.get("/productsnameandmaterial", async function(req, res) {
   res.send(result);
 });
 
+
+
+
 //6. Find the product with a row id of 10
 app.get("/products10", async function(req, res) {
   const result = await client
@@ -87,6 +97,9 @@ app.get("/products10", async function(req, res) {
   res.send(result);
 });
 
+
+
+
 //7. Find only the product name and product material
 app.get("/productsnameandmaterial2", async function(req, res) {
   const result = await client
@@ -96,6 +109,8 @@ app.get("/productsnameandmaterial2", async function(req, res) {
     .toArray();
   res.send(result);
 });
+
+
 
 
 //8. Find all products which contain the value of soft in product material 
@@ -109,6 +124,9 @@ app.get("/productssoft", async function(req, res) {
 });
 
 
+
+
+
 //9. Find products which contain product color indigo  and product price 492.00
 app.get("/productscontain", async function(req, res) {
   const result = await client
@@ -118,6 +136,8 @@ app.get("/productscontain", async function(req, res) {
     .toArray();
   res.send(result);
 });
+
+
 
 
 //10. Delete the products which product price value are same
